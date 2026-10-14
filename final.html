@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f8fc" />
+    <title>MEDIFIN - Financial Clinic</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="integrated.css" />
+  </head>
+  <body>
+    <div class="app-shell" id="app">
+      <header class="topbar">
+        <a class="brand" href="#" id="brandHome" aria-label="Back to MEDIFIN menu">
+          <span class="brand-mark">M</span>
+          <span>MEDIFIN</span>
+        </a>
+        <div class="topbar-center" id="topbarContext"></div>
+        <div class="topbar-actions">
+          <span class="save-status" id="saveStatus"><i></i> Auto-saved</span>
+          <button class="text-btn rules-trigger" type="button" id="rulesBtn" aria-haspopup="dialog" aria-controls="rulesModal">How to play</button>
+          <button class="text-btn topbar-menu-btn" type="button" id="menuBtn">Menu</button>
+        </div>
+      </header>
+
+      <main id="mainContent"></main>
+
+      <footer class="footer section-wrap">
+        <span>MEDIFIN © 2026</span>
+        <span>Learning simulation - Not real financial advice</span>
+        <span id="footerContext">Case selection</span>
+      </footer>
+    </div>
+
+    <div class="modal-backdrop hidden" id="evidenceModal" role="presentation">
+      <section class="evidence-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-head">
+          <div>
+            <span class="eyebrow">EVIDENCE DETAIL</span>
+            <h2 id="modalTitle">Evidence</h2>
+          </div>
+          <button class="icon-close" type="button" id="modalClose" aria-label="Close">×</button>
+        </div>
+        <div id="modalBody"></div>
+        <div class="modal-actions" id="modalActions"></div>
+      </section>
+    </div>
+
+    <div class="modal-backdrop hidden" id="rulesModal" role="presentation">
+      <section class="rules-modal" role="dialog" aria-modal="true" aria-labelledby="rulesTitle" tabindex="-1">
+        <div class="modal-head">
+          <div><span class="eyebrow">MEDIFIN · CASE 01</span><h2 id="rulesTitle">How to play</h2></div>
+          <button class="icon-close" type="button" id="rulesClose" aria-label="Close the rules">×</button>
+        </div>
+        <div class="rules-content">
+          <section><h3>What should you do?</h3><p>Review the files, ask questions, diagnose the case, choose a plan, prepare its implementation, and reassess after new developments.</p></section>
+          <section><h3>How to play</h3><p>Select or clear cards before confirming. Each group shows how many choices are required. Once confirmed, choices are saved and the case advances.</p><p>Opened files and evidence appear in the notebook. Select an evidence title to read it, then select "Use as evidence" to cite it. Progress is saved automatically. "Restart" begins a new playthrough.</p></section>
+          <section><h3>How is the score calculated?</h3><p>The game evaluates the consulting process and the outcome. Process dimensions are investigation, reasoning and diagnosis, treatment suitability, communication, professional ethics, and adaptation. The total case score combines 50% process, 30% financial outcome, and 20% client experience. Governance is reported separately. Serious ethical violations may cap the process and total case score.</p></section>
+          <section><h3>Decision guidance</h3><p>Consider evidence sources, uncertainty, implementation conditions, and new developments. Reading evidence does not automatically cite it in your diagnosis.</p></section>
+        </div>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="engine.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
