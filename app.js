@@ -217,7 +217,7 @@ function confirmCurrent() {
   if (screenBefore === 11) state.status = 'COMPLETED';
   if (screenBefore !== 10 || state.currentScreen !== 10) { if (!state.confirmedScreens.includes(screenBefore)) state.confirmedScreens.push(screenBefore); state.decisionHistory.push({ screen: screenBefore, selection: deepCopy(state.draftSelection), at: Date.now() }); state.transitionIds.push(`${screenBefore}-${state.confirmedScreens.length}`); }
   saveState(); render(); busy = false;
-  if (screenBefore === 3) openSelectedDossierReview();
+  if (screenBefore === 2) openSelectedDossierReview();
   window.setTimeout(() => document.querySelector('.decision-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
 }
 function setSelection(kind, id) {
@@ -260,13 +260,14 @@ function renderDossierReview() {
   document.getElementById('modalActions').innerHTML = '<button type="button" class="primary-btn" id="reviewDossiersContinue">Continue</button>';
 }
 function openSelectedDossierReview() {
-  if (state.currentScreen !== 4 || state.selectedDossiers.length !== 3 || modalDossierId === 'review' || !document.getElementById('evidenceModal').classList.contains('hidden')) return;
+  if (state.currentScreen !== 3 || state.selectedDossiers.length !== 3 || modalDossierId === 'review' || !document.getElementById('evidenceModal').classList.contains('hidden')) return;
   dossierReviewIds = [...state.selectedDossiers];
   modalDossierId = 'review'; modalEvidenceId = null; dossierReviewIndex = 0; modalReturnFocus = document.activeElement;
+  document.querySelector('#evidenceModal .evidence-modal').classList.add('dossier-review-modal');
   renderDossierReview(); document.getElementById('evidenceModal').classList.remove('hidden');
   window.setTimeout(() => document.querySelector('[data-review-dossier="0"]')?.focus(), 0);
 }
-function closeModal() { const modal = document.getElementById('evidenceModal'); const returnFocus = modalReturnFocus; modal.classList.add('hidden'); document.getElementById('modalClose').classList.remove('hidden'); modalEvidenceId = null; modalDossierId = null; dossierReviewIds = []; modalReturnFocus = null; if (returnFocus?.isConnected && typeof returnFocus.focus === 'function') window.setTimeout(() => returnFocus.focus(), 0); }
+function closeModal() { const modal = document.getElementById('evidenceModal'); const returnFocus = modalReturnFocus; modal.classList.add('hidden'); modal.querySelector('.evidence-modal').classList.remove('dossier-review-modal'); document.getElementById('modalClose').classList.remove('hidden'); modalEvidenceId = null; modalDossierId = null; dossierReviewIds = []; modalReturnFocus = null; if (returnFocus?.isConnected && typeof returnFocus.focus === 'function') window.setTimeout(() => returnFocus.focus(), 0); }
 
 document.addEventListener('click', (event) => {
   const storyNext = event.target.closest('[data-story-next]');

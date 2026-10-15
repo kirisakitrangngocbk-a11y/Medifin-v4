@@ -263,4 +263,11 @@ button, input { font-family: inherit; }
 .doc-letter-zoom.zoomed img { width: 900px; max-width: none; margin: 0 auto; }
 
 .dossier-review-tabs { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }.dossier-review-tabs button { border:1px solid var(--line); border-radius:8px; padding:9px 12px; color:var(--navy); background:#fff; cursor:pointer; font:600 13px Manrope,sans-serif; }.dossier-review-tabs button.active { border-color:var(--blue); color:#fff; background:var(--blue); }.dossier-review-tabs button:focus-visible { outline:3px solid #23c5ef; outline-offset:2px; }
+.evidence-modal.dossier-review-modal { width:min(920px,100%); max-height:calc(100dvh - 40px); padding:clamp(20px,3vw,34px); }
+.dossier-review-modal .modal-head h2 { font-size:clamp(26px,3vw,34px); }
+.dossier-review-modal .modal-text { font-size:18px; line-height:1.75; }
+.dossier-review-modal .modal-text p { margin:0 0 1em; }
+.dossier-review-modal .modal-meta span { font-size:13px; }
+.dossier-review-modal .dossier-review-tabs button { padding:11px 16px; font-size:16px; }
+@media (max-width:620px) { .evidence-modal.dossier-review-modal { max-height:calc(100dvh - 24px); padding:18px; }.dossier-review-modal .modal-text { font-size:17px; line-height:1.65; } }
 @media (max-width: 760px) { .doc-intro-main > img { width: 100%; height: 100%; }.doc-intro-copy { top: auto; bottom: 15px; right: 4%; width: 92%; }.doc-envelope-main > p { bottom: 96px; }.conclusion-hero > div:first-child { padding-left: 110px; }.conclusion-hero img { width: 100px; height: 155px; }.conclusion-profile dl div { grid-template-columns: minmax(105px,.65fr) 1fr; } }

@@ -120,6 +120,7 @@ async def main(ws):
     await send('Emulation.setDeviceMetricsOverride', {'width': 1440, 'height': 900, 'deviceScaleFactor': 1, 'mobile': False})
     await click('[data-story-next="game"]')
     assert await evaluate('state.currentScreen') == 2
+    assert await evaluate('document.querySelector("#confirmBtn").disabled')
     await shot('ui-profile-desktop.png')
     assert await evaluate('document.querySelector(".client-portrait").naturalWidth > 0')
     assert await evaluate('document.querySelector(".client-portrait").getAttribute("src").includes("round1/david.png")')
@@ -128,8 +129,21 @@ async def main(ws):
     assert await evaluate('document.querySelector("#evidenceModal").classList.contains("hidden")')
     assert await evaluate('state.selectedDossiers.length === 0')
     await click('#confirmBtn')
+    assert await evaluate('!document.querySelector("#evidenceModal").classList.contains("hidden")')
+    assert await evaluate('document.querySelector("#modalTitle").textContent === "Selected documents"')
+    assert await evaluate('document.querySelectorAll("[data-review-dossier]").length === 3')
+    assert await evaluate('document.querySelector(".dossier-review-modal").getBoundingClientRect().width >= 800')
+    assert await evaluate('getComputedStyle(document.querySelector(".dossier-review-modal .modal-text")).fontSize === "18px"')
+    await shot('ui-selected-documents-desktop.png')
+    await shot('ui-selected-documents-mobile.png', 390, 844)
+    assert await evaluate('document.documentElement.scrollWidth <= 390')
+    assert await evaluate('document.querySelector(".dossier-review-modal").getBoundingClientRect().width <= 390')
+    await send('Emulation.setDeviceMetricsOverride', {'width': 1440, 'height': 900, 'deviceScaleFactor': 1, 'mobile': False})
     assert await evaluate('state.uiScene') == 'doc-intro'
     reputation_after_dossier = await evaluate('state.reputation')
+    await click('#reviewDossiersContinue')
+    assert await evaluate('document.querySelector("#evidenceModal").classList.contains("hidden")')
+    assert await evaluate('state.reputation') == reputation_after_dossier
     await send('Page.reload')
     await asyncio.sleep(.5)
     await click('[data-menu-action="start"]')
@@ -156,16 +170,9 @@ async def main(ws):
     for ident in ('CH1-C', 'CH1-D'):
         await chosen('question1', ident)
     assert await evaluate('document.querySelector("#evidenceModal").classList.contains("hidden")')
-    before_question_record = await evaluate('JSON.stringify({reputation:state.reputation,answered:state.answeredQuestions.length,ledger:JSON.stringify(state.evidenceLedger)})')
     await click('#confirmBtn')
-    assert await evaluate('!document.querySelector("#evidenceModal").classList.contains("hidden")')
-    assert await evaluate('document.querySelector("#modalTitle").textContent === "Selected documents"')
-    after_question_record = await evaluate('JSON.stringify({reputation:state.reputation,answered:state.answeredQuestions.length,ledger:JSON.stringify(state.evidenceLedger)})')
-    assert after_question_record != before_question_record
-    recorded_question_state = await evaluate('JSON.stringify({reputation:state.reputation,answered:state.answeredQuestions.length,ledger:JSON.stringify(state.evidenceLedger),confirmed:[...state.confirmedScreens]})')
-    await click('#reviewDossiersContinue')
     assert await evaluate('document.querySelector("#evidenceModal").classList.contains("hidden")')
-    assert await evaluate('JSON.stringify({reputation:state.reputation,answered:state.answeredQuestions.length,ledger:JSON.stringify(state.evidenceLedger),confirmed:[...state.confirmedScreens]})') == recorded_question_state
+    assert await evaluate('state.answeredQuestions.length === 2')
     await send('Page.reload')
     await asyncio.sleep(.5)
     await click('[data-menu-action="start"]')
